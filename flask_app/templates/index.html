@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Purity Prediction</title>
+    <style>
+/* Global Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #eaeef3;
+    margin: 0;
+    padding: 0;
+    color: #34495e;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #2980b9;
+}
+
+input[type="file"] {
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 2px solid #bdc3c7;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 450px;
+    background-color: #f2f6fa;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+input[type="file"]:hover {
+    border-color: #3498db;
+}
+
+select {
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 2px solid #bdc3c7;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 450px;
+    background-color: #f2f6fa;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+select:hover {
+    border-color: #3498db;
+}
+
+button {
+    padding: 15px 25px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Result Section */
+.result {
+    text-align: center;
+    margin-top: 40px;
+    padding: 25px;
+    background-color: #ecf0f1;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.result h2 {
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.result p {
+    font-size: 1.3rem;
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.uploaded-image {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border: 3px solid #bdc3c7;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+
+    input[type="file"],
+    select {
+        width: 100%;
+    }
+
+    .uploaded-image {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Water Purity Prediction</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" required>
+
+            <label for="model">Select Model:</label>
+            <select name="model" required>
+                <option value="Original Model">Original Model</option>
+                <option value="VGG16 Model">VGG16 Model</option>
+                <option value="Compare Both">Compare Both</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if image %}
+        <div class="result">
+            <h2>Prediction Results</h2>
+            <img src="{{ url_for('static', filename='images/' ~ image) }}" alt="Uploaded Image" class="uploaded-image">
+
+            {% if result_original %}
+            <p>Original Model: {{ result_original }}</p>
+            {% endif %}
+
+            {% if result_vgg16 %}
+            <p>VGG16 Model: {{ result_vgg16 }}</p>
+            {% endif %}
+
+            {% if comparison %}
+            <p>Comparison: {{ comparison }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
